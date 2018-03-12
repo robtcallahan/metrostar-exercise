@@ -1,0 +1,4 @@
+.DS_Store
+.terraform
+.vagrant
+terraform.tfstate.backup

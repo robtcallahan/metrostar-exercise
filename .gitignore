@@ -2,4 +2,5 @@
 .terraform
 .vagrant
 terraform.tfstate.backup
+.idea
 share

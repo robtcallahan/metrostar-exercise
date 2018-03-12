@@ -1,6 +1,6 @@
 <?php
 
-$mysqli = new mysqli("terraform-20180311183838199800000001.ciceqbkiriam.us-east-1.rds.amazonaws.com", "rob", "dinx9one", "exercisedb");
+$mysqli = new mysqli("db_endpoint", "rob", "dinx9one", "exercisedb");
 
 if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;

@@ -1,17 +1,17 @@
-variable "public_key_path" {
-  description = "Path to ssh key"
-  default = "~/.ssh/robs-mbp.pem"
+variable "region" {
+  default = "us-east-1"
 }
 
 variable key_name {
   default = "robs-mbp"
 }
 
-variable "region" {
-  default = "us-east-1"
+variable "public_key_path" {
+  description = "Path to ssh key"
+  default = "~/.ssh/id_rsa.pub"
 }
 
-variable ami { 
+variable ami {
   default = "ami-97785bed" 
 }
 

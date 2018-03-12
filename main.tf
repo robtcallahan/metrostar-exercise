@@ -28,7 +28,7 @@ resource "aws_subnet" "default" {
 
 # A security group for the ELB so it is accessible via the web
 resource "aws_security_group" "elb" {
-  name        = "terraform_example_elb"
+  name        = "metrosystems_sg"
   description = "Used in the terraform"
   vpc_id      = "${aws_vpc.default.id}"
 
@@ -52,7 +52,7 @@ resource "aws_security_group" "elb" {
 # Our default security group to access
 # the instances over SSH and HTTP
 resource "aws_security_group" "default" {
-  name        = "terraform_example"
+  name        = "metrostar-exercise-sg"
   description = "Used in the terraform"
   vpc_id      = "${aws_vpc.default.id}"
 
@@ -82,7 +82,7 @@ resource "aws_security_group" "default" {
 }
 
 resource "aws_elb" "web" {
-  name = "terraform-example-elb"
+  name = "metrostar-exercise-elb"
 
   subnets         = ["${aws_subnet.default.id}"]
   security_groups = ["${aws_security_group.elb.id}"]
@@ -94,11 +94,6 @@ resource "aws_elb" "web" {
     lb_port           = 80
     lb_protocol       = "http"
   }
-}
-
-resource "aws_key_pair" "auth" {
-  key_name   = "${var.key_name}"
-  public_key = "${file(var.public_key_path)}"
 }
 
 resource "aws_instance" "web" {
@@ -132,6 +127,21 @@ resource "aws_instance" "web" {
     destination = "/tmp/script.sh"
   }
 
+  provisioner "file" {
+    source      = "share/robs-mbp.pem"
+    destination = "/tmp/robs-mbp.pem"
+  }
+
+  provisioner "file" {
+    source      = "share/config"
+    destination = "/tmp/config"
+  }
+
+  provisioner "file" {
+    source      = "share/credentials"
+    destination = "/tmp/credentials"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "chmod +x /tmp/script.sh",
@@ -145,15 +155,20 @@ resource "aws_eip" "ip" {
 }
 
 resource "aws_db_instance" "database" {
-  allocated_storage    = 10
-  storage_type         = "gp2"
-  engine               = "mysql"
-  engine_version       = "5.6.39"
-  instance_class       = "db.t2.micro"
-  name                 = "webdb"
-  username             = "rob"
-  password             = "dinx9one"
-  parameter_group_name = "default.mysql5.6",
-  skip_final_snapshot  = true
+  allocated_storage     = 10
+  storage_type          = "gp2"
+  engine                = "mysql"
+  engine_version        = "5.6.39"
+  instance_class        = "db.t2.micro"
+  name                  = "webdb"
+  username              = "rob"
+  password              = "dinx9one"
+  parameter_group_name  = "default.mysql5.6",
+  skip_final_snapshot   = true,
+  tags                  = [
+    {
+      "Name" = "webdb"
+    }
+  ]
 }
 

@@ -1,3 +1,12 @@
+variable "public_key_path" {
+  description = "Path to ssh key"
+  default = "~/.ssh/robs-mbp.pem"
+}
+
+variable key_name {
+  default = "robs-mbp"
+}
+
 variable "region" {
   default = "us-east-1"
 }
@@ -8,10 +17,6 @@ variable ami {
 
 variable instance_type { 
   default = "t2.micro" 
-}
-
-variable key_name { 
-  default = "robs-mbp" 
 }
 
 variable root_passwd {

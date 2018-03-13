@@ -1,4 +1,7 @@
-output "ip" {
-  value = "${aws_eip.ip.public_ip}"
+output "web_dns_name" {
+  value = "${aws_instance.web.public_dns}"
 }
 
+output "web_address" {
+  value = "${aws_instance.web.public_ip}"
+}
